@@ -7,6 +7,7 @@ color=(
   "blue" "#B8B6C3"
   "cyan" "#AAEB83"
   "magenta" "#375949"
+  "orange" "#FFA500"
 )
 
 # RVM settings
@@ -28,6 +29,36 @@ git_custom_status() {
   local cb=$(git_current_branch)
   if [ -n "$cb" ]; then
     echo "$(parse_git_dirty)$ZSH_THEME_GIT_PROMPT_PREFIX$(git_current_branch)$ZSH_THEME_GIT_PROMPT_SUFFIX"
+  fi
+}
+
+# Function to display current changes, additions, and deletions
+git_current_changes() {
+  local cb=$(git_current_branch)
+  if [ -n "$cb" ]; then
+    local changes=$(git status --porcelain | wc -l | tr -d ' ')
+    local additions=$(git diff --shortstat | awk '{print $1}')
+    local deletions=$(git diff --shortstat | awk '{print $4}')
+    local changes_icon="\uf126"
+    local additions_icon="+"
+    local deletions_icon="-"
+    local dirty=""
+    if [ "$changes" -gt 0 ]; then
+      dirty="*"
+    fi
+    local orange_changes=""
+    if [ "$changes" -gt 0 ]; then
+      orange_changes="%F{#FFA500}$changes_icon $changes%f"
+    fi
+    local green_additions=""
+    if [ "$additions" -gt 0 ]; then
+      green_additions=" %{$fg[green]%}$additions_icon$additions%{$reset_color%}"
+    fi
+    local red_deletions=""
+    if [ "$deletions" -gt 0 ]; then
+      red_deletions=" %{$fg[red]%}$deletions_icon$deletions%{$reset_color%}"
+    fi
+    echo "$orange_changes$green_additions$red_deletions"
   fi
 }
 
@@ -63,7 +94,7 @@ setopt prompt_subst
 
 precmd() {
   # Update global variables each time before the prompt is displayed
-  LEFT_CONTENT="$(venv_prompt)$(git_custom_status)%{$fg[cyan]%}[%2~% ]%{$reset_color%}"
+  LEFT_CONTENT="$(venv_prompt)$(git_custom_status)%{$fg[cyan]%}[%2~% ]$(git_current_changes)%{$reset_color%}"
   RIGHT_CONTENT="%{$fg[magenta]%}%n@%m%{$reset_color%}" 
 }
 
