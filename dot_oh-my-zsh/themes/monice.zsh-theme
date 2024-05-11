@@ -95,7 +95,7 @@ setopt prompt_subst
 precmd() {
   # Update global variables each time before the prompt is displayed
   LEFT_CONTENT="$(venv_prompt)$(git_custom_status)%{$fg[cyan]%}[%2~% ]$(git_current_changes)%{$reset_color%}"
-  RIGHT_CONTENT="%{$fg[magenta]%}%n@%m%{$reset_color%}" 
+  RIGHT_CONTENT="%{$fg[magenta]%}$(date +%H:%M) %n@%m%{$reset_color%}" 
 }
 
 # Dynamic prompt construction with username in magenta
