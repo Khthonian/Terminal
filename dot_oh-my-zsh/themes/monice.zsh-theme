@@ -37,8 +37,8 @@ git_current_changes() {
   local cb=$(git_current_branch)
   if [ -n "$cb" ]; then
     local changes=$(git status --porcelain | wc -l | tr -d ' ')
-    local additions=$(git diff --shortstat | awk '{print $4}')
-    local deletions=$(git diff --shortstat | awk '{print $6}')
+    local additions=$(git diff --shortstat | grep -o '[0-9]* insertions' | awk '{sum += $1} END {print sum}')
+    local deletions=$(git diff --shortstat | grep -o '[0-9]* deletions' | awk '{sum += $1} END {print sum}')
     local changes_icon="\uf126"
     local additions_icon="+"
     local deletions_icon="-"
