@@ -1,0 +1,44 @@
+format = """
+$directory\
+$git_branch\
+$git_status\
+$git_metrics\
+$fill\
+$cmd_duration\
+$time\
+$python\
+$lua\
+$nodejs\
+$rust\
+$package\
+$docker_context\
+$line_break\
+$character
+"""
+
+add_newline = false
+
+[cmd_duration]
+format = '[$duration]($style)'
+min_time = 2000
+style = 'bold blue'
+
+[docker_context]
+format = '| [$symbol$context]($style)'
+
+[fill]
+symbol = ' . '
+
+[package]
+format = '| [$symbol$version]($style)'
+
+[time]
+disabled = false
+format = ' [$time]($style) ' 
+
+[python]
+format = '| [${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)'
+pyenv_version_name = true
+pyenv_prefix = ''
+
+
