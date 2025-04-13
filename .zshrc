@@ -24,5 +24,14 @@ export PATH=~/bin:$PATH
 # Set default editor
 export EDITOR=nvim
 
+# nvm
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
+# uv
+. "$HOME/.local/bin/env"
+
 # Load starship
 eval "$(starship init zsh)"
+
